@@ -7,8 +7,8 @@
     <ProjectGuid>{388568FB-B531-40A2-AD21-2D7C0FE18A02}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QnaMakerApi</RootNamespace>
-    <AssemblyName>QnaMakerApi</AssemblyName>
+    <RootNamespace>QnaMaker</RootNamespace>
+    <AssemblyName>QnaMaker</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

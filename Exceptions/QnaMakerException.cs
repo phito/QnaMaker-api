@@ -8,6 +8,7 @@ namespace QnaMakerApi.Exceptions
     {
         [JsonProperty("code")]
         public string Code { get; set; }
+
         [JsonProperty("message")]
         public string Message { get; set; }
     }
@@ -37,6 +38,7 @@ namespace QnaMakerApi.Exceptions
 
         [JsonIgnore]
         public HttpStatusCode HttpStatusCode { get; set; }
+
         public QnaMakerError Error { get; set; }
     }
 }

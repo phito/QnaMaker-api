@@ -7,17 +7,18 @@ namespace QnaMakerApi.Responses
     {
         [JsonProperty("answer")]
         public string Answer { get; set; }
+
         [JsonProperty("score")]
         public float Score { get; set; }
     }
 
     /// <summary>
-    /// A successful call returns the result of the question. 
+    ///     A successful call returns the result of the question.
     /// </summary>
     public class GenerateAnswerResponse
     {
         /// <summary>
-        /// List of answers for the user query sorted in decreasing order of ranking score.
+        ///     List of answers for the user query sorted in decreasing order of ranking score.
         /// </summary>
         [JsonProperty("answers")]
         public IList<AnswerItem> Answers { get; set; }

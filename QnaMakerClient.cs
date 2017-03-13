@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace QnaMakerApi
         private const string BaseAddress = "https://westus.api.cognitive.microsoft.com/qnamaker/v2.0/knowledgebases/";
         private const int MaxQnaPairs = 1000;
         private const int MaxQnaUrls = 5;
-        
+
         private readonly HttpClient _client;
 
         public QnaMakerClient(string subscriptionKey)
@@ -30,29 +29,38 @@ namespace QnaMakerApi
         }
 
         /// <summary>
-        /// Subscription key which provides access to this API.
+        ///     Subscription key which provides access to this API.
         /// </summary>
         public string SubscriptionKey { get; set; }
+
+        public void Dispose()
+        {
+            _client.Dispose();
+        }
 
         #region Api Methods
 
         #region Create Knowledge Base
+
         /// <summary>
-        /// Creates a new knowledge base.
+        ///     Creates a new knowledge base.
         /// </summary>
         /// <param name="name">Friendly name for the knowledge base.</param>
         /// <param name="qnapairs">
-        /// List of question and answer pairs to be added to the knowledge base. 
-        /// Max 1000 Q-A pairs per request.
+        ///     List of question and answer pairs to be added to the knowledge base.
+        ///     Max 1000 Q-A pairs per request.
         /// </param>
         /// <param name="urls">
-        /// List of URLs to be processed and indexed in the knowledge base. 
-        /// In case of existing URL, it will be fetched again and KB will be updated with new data.
-        /// Max 5 urls per request.
+        ///     List of URLs to be processed and indexed in the knowledge base.
+        ///     In case of existing URL, it will be fetched again and KB will be updated with new data.
+        ///     Max 5 urls per request.
         /// </param>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="CreateKnowledgeBaseResponse"/></returns>
-        public async Task<CreateKnowledgeBaseResponse> CreateKnowledgeBase(string name, List<QnaPair> qnapairs=null, List<string> urls=null)
+        /// <returns>
+        ///     <see cref="CreateKnowledgeBaseResponse" />
+        /// </returns>
+        public async Task<CreateKnowledgeBaseResponse> CreateKnowledgeBase(string name, List<QnaPair> qnapairs = null,
+            List<string> urls = null)
         {
             if (qnapairs == null)
             {
@@ -71,13 +79,15 @@ namespace QnaMakerApi
         }
 
         /// <summary>
-        /// Creates a new knowledge base.
+        ///     Creates a new knowledge base.
         /// </summary>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="CreateKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="CreateKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<CreateKnowledgeBaseResponse> CreateKnowledgeBase(CreateKnowledgeBaseRequest req)
         {
-            if (String.IsNullOrEmpty(req.Name))
+            if (string.IsNullOrEmpty(req.Name))
             {
                 throw new ArgumentNullException(nameof(req.Name));
             }
@@ -89,18 +99,21 @@ namespace QnaMakerApi
             {
                 throw new ArgumentOutOfRangeException(nameof(req.Urls), $"Max {MaxQnaUrls} urls per request");
             }
-            
+
             return await Send<CreateKnowledgeBaseResponse>(HttpMethod.Post, "create", req);
         }
+
         #endregion
 
         #region Delete Knowledge Base
 
         /// <summary>
-        /// Deletes the specified knowledge base and all data associated with it.
+        ///     Deletes the specified knowledge base and all data associated with it.
         /// </summary>
         /// <param name="id">Knowledge base identity.</param>
-        /// <returns><see cref="DeleteKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="DeleteKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<DeleteKnowledgeBaseResponse> DeleteKnowledgeBase(Guid id)
         {
             return await DeleteKnowledgeBase(new DeleteKnowledgeBaseRequest
@@ -110,9 +123,11 @@ namespace QnaMakerApi
         }
 
         /// <summary>
-        /// Deletes the specified knowledge base and all data associated with it.
+        ///     Deletes the specified knowledge base and all data associated with it.
         /// </summary>
-        /// <returns><see cref="DeleteKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="DeleteKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<DeleteKnowledgeBaseResponse> DeleteKnowledgeBase(DeleteKnowledgeBaseRequest req)
         {
             return await Send<DeleteKnowledgeBaseResponse>(HttpMethod.Delete, $"{req.KnowledgeBaseId}");
@@ -123,11 +138,13 @@ namespace QnaMakerApi
         #region Download Knowledge Base
 
         /// <summary>
-        /// Downloads all the data associated with the specified knowledge base.
+        ///     Downloads all the data associated with the specified knowledge base.
         /// </summary>
         /// <param name="id">Knowledge base identity.</param>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="DownloadKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="DownloadKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<DownloadKnowledgeBaseResponse> DownloadKnowledgeBase(Guid id)
         {
             return await DownloadKnowledgeBase(new DownloadKnowledgeBaseRequest
@@ -137,10 +154,12 @@ namespace QnaMakerApi
         }
 
         /// <summary>
-        /// Downloads all the data associated with the specified knowledge base.
+        ///     Downloads all the data associated with the specified knowledge base.
         /// </summary>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="DownloadKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="DownloadKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<DownloadKnowledgeBaseResponse> DownloadKnowledgeBase(DownloadKnowledgeBaseRequest req)
         {
             var response = await Send(HttpMethod.Delete, $"{req.KnowledgeBaseId}");
@@ -155,16 +174,18 @@ namespace QnaMakerApi
         #region Generate Answer
 
         /// <summary>
-        /// Returns the list of answers for the given question sorted in descending order of ranking score.
+        ///     Returns the list of answers for the given question sorted in descending order of ranking score.
         /// </summary>
         /// <param name="id">Knowledge base identity.</param>
         /// <param name="question">User question to be queried against your knowledge base.</param>
         /// <param name="top">Number of ranked results you want in the output.</param>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="GenerateAnswerResponse"/></returns>
+        /// <returns>
+        ///     <see cref="GenerateAnswerResponse" />
+        /// </returns>
         public async Task<GenerateAnswerResponse> GenerateAnswer(Guid id, string question, int top = 1)
         {
-            if (String.IsNullOrEmpty(question))
+            if (string.IsNullOrEmpty(question))
             {
                 throw new ArgumentNullException(nameof(question));
             }
@@ -177,10 +198,12 @@ namespace QnaMakerApi
         }
 
         /// <summary>
-        /// Returns the list of answers for the given question sorted in descending order of ranking score.
+        ///     Returns the list of answers for the given question sorted in descending order of ranking score.
         /// </summary>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="GenerateAnswerResponse"/></returns>
+        /// <returns>
+        ///     <see cref="GenerateAnswerResponse" />
+        /// </returns>
         public async Task<GenerateAnswerResponse> GenerateAnswer(GenerateAnswerRequest req)
         {
             return await Send<GenerateAnswerResponse>(HttpMethod.Post, $"{req.KnowledgeBaseId}/generateAnswer", req);
@@ -191,11 +214,13 @@ namespace QnaMakerApi
         #region Publish Knowledge Base
 
         /// <summary>
-        /// Publish all unpublished in the knowledgebase to the prod endpoint.
+        ///     Publish all unpublished in the knowledgebase to the prod endpoint.
         /// </summary>
         /// <param name="id">Knowledge base identity.</param>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="PublishKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="PublishKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<PublishKnowledgeBaseResponse> PublishKnowledgeBase(Guid id)
         {
             return await PublishKnowledgeBase(new PublishKnowledgeBaseRequest
@@ -205,10 +230,12 @@ namespace QnaMakerApi
         }
 
         /// <summary>
-        /// Publish all unpublished in the knowledgebase to the prod endpoint.
+        ///     Publish all unpublished in the knowledgebase to the prod endpoint.
         /// </summary>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="PublishKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="PublishKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<PublishKnowledgeBaseResponse> PublishKnowledgeBase(PublishKnowledgeBaseRequest req)
         {
             return await Send<PublishKnowledgeBaseResponse>(HttpMethod.Put, $"{req.KnowledgeBaseId}");
@@ -219,14 +246,17 @@ namespace QnaMakerApi
         #region Update Knowledge Base
 
         /// <summary>
-        /// Add or delete QnA Pairs and / or URLs to an existing knowledge base.
+        ///     Add or delete QnA Pairs and / or URLs to an existing knowledge base.
         /// </summary>
         /// <param name="id">Knowledge base identity.</param>
         /// <param name="add">Data to be added to the knowledge base.</param>
         /// <param name="delete">Data to be deleted from the knowledge base.</param>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="UpdateKnowledgeBaseResponse"/></returns>
-        public async Task<UpdateKnowledgeBaseResponse> UpdateKownledgeBase(Guid id, UpdateActions add = null, UpdateActions delete = null)
+        /// <returns>
+        ///     <see cref="UpdateKnowledgeBaseResponse" />
+        /// </returns>
+        public async Task<UpdateKnowledgeBaseResponse> UpdateKownledgeBase(Guid id, UpdateActions add = null,
+            UpdateActions delete = null)
         {
             if (add == null)
             {
@@ -245,10 +275,12 @@ namespace QnaMakerApi
         }
 
         /// <summary>
-        /// Add or delete QnA Pairs and / or URLs to an existing knowledge base.
+        ///     Add or delete QnA Pairs and / or URLs to an existing knowledge base.
         /// </summary>
         /// <exception cref="QnaMakerError" />
-        /// <returns><see cref="UpdateKnowledgeBaseResponse"/></returns>
+        /// <returns>
+        ///     <see cref="UpdateKnowledgeBaseResponse" />
+        /// </returns>
         public async Task<UpdateKnowledgeBaseResponse> UpdateKownledgeBase(UpdateKnowledgeBaseRequest req)
         {
             return await Send<UpdateKnowledgeBaseResponse>(new HttpMethod("PATCH"), $"{req.KnowledgeBaseId}", req);
@@ -260,11 +292,11 @@ namespace QnaMakerApi
 
         #region Web Methods
 
-        private async Task<TR> Send<TR>(HttpMethod method, string url, object data=null)
+        private async Task<TR> Send<TR>(HttpMethod method, string url, object data = null)
         {
             using (var request = new HttpRequestMessage(method, url))
             {
-                if(data != null && method == HttpMethod.Post)
+                if (data != null && method == HttpMethod.Post)
                 {
                     var body = JsonConvert.SerializeObject(data);
                     request.Content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -302,7 +334,7 @@ namespace QnaMakerApi
                 return JsonConvert.DeserializeObject<T>(content);
             }
 
-            if (!String.IsNullOrEmpty(content))
+            if (!string.IsNullOrEmpty(content))
             {
                 var error = JsonConvert.DeserializeObject<QnaMakerErrorJson>(content);
                 throw new QnaMakerException(response.StatusCode, error.Error);
@@ -311,10 +343,5 @@ namespace QnaMakerApi
         }
 
         #endregion
-
-        public void Dispose()
-        {
-            _client.Dispose();
-        }
     }
 }
