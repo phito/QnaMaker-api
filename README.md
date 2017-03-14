@@ -1,8 +1,9 @@
-C# Bindings for QnAMaker
+C# Bindings for QnAMaker 🤓
 ========================
 
-Usage example
+Usage examples
 -------------
+### Creating a client
 ```cs
 using(var client = new QnaMakerClient("<your subscription key>"))
 {
@@ -11,4 +12,8 @@ using(var client = new QnaMakerClient("<your subscription key>"))
 }
 ```
 
-More doc to come 🤓
+Links
+-----
+
+* [qnamaker.ai](https://qnamaker.ai)
+* [Official API documentation](https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe)
