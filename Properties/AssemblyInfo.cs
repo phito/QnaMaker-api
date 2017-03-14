@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("QnaMaker")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("C# bindings for microsoft's QnaMaker cognitive service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("QnaMaker")]
