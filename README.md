@@ -12,6 +12,12 @@ using(var client = new QnaMakerClient("<your subscription key>"))
 }
 ```
 
+Installation
+-------------
+
+[Nuget Package](https://www.nuget.org/packages/QnaMaker)
+> PM > Install-Package QnaMaker
+
 Links
 -----
 
