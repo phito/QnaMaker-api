@@ -162,10 +162,10 @@ namespace QnaMakerApi
         /// </returns>
         public async Task<DownloadKnowledgeBaseResponse> DownloadKnowledgeBase(DownloadKnowledgeBaseRequest req)
         {
-            var response = await Send(HttpMethod.Delete, $"{req.KnowledgeBaseId}");
+            var response = await Send(HttpMethod.Get, $"{req.KnowledgeBaseId}");
             return new DownloadKnowledgeBaseResponse
             {
-                BlobUrl = response
+                BlobUrl = response.Replace("\"", "")
             };
         }
 

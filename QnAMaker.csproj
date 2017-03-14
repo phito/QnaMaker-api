@@ -59,7 +59,6 @@
     <Compile Include="Responses\PublishKnowledgeBaseResponse.cs" />
     <Compile Include="Responses\UpdateKnowledgeBaseResponse.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
