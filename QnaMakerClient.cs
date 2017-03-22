@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -329,6 +330,7 @@ namespace QnaMakerApi
         private async Task<T> GetResponseContent<T>(HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
+            content = WebUtility.HtmlDecode(content);
             if (response.IsSuccessStatusCode)
             {
                 return JsonConvert.DeserializeObject<T>(content);
