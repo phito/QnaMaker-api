@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QnaMaker", "QnaMaker.csproj", "{388568FB-B531-40A2-AD21-2D7C0FE18A02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QnaMaker", "QnaMaker\QnaMaker.csproj", "{C68184CC-05BB-4DEA-AA49-F09319E67758}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{388568FB-B531-40A2-AD21-2D7C0FE18A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{388568FB-B531-40A2-AD21-2D7C0FE18A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{388568FB-B531-40A2-AD21-2D7C0FE18A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{388568FB-B531-40A2-AD21-2D7C0FE18A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68184CC-05BB-4DEA-AA49-F09319E67758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68184CC-05BB-4DEA-AA49-F09319E67758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68184CC-05BB-4DEA-AA49-F09319E67758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68184CC-05BB-4DEA-AA49-F09319E67758}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C619012-BE97-4B30-A72E-254930CDAAD3}
 	EndGlobalSection
 EndGlobal
