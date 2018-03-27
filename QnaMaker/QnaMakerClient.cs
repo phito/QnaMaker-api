@@ -297,7 +297,7 @@ namespace QnaMakerApi
         {
             using (var request = new HttpRequestMessage(method, url))
             {
-                if (data != null && method == HttpMethod.Post)
+                if (data != null && ( method == HttpMethod.Post || string.Equals(method.Method.ToUpper(), "PATCH")))
                 {
                     var body = JsonConvert.SerializeObject(data);
                     request.Content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -314,7 +314,7 @@ namespace QnaMakerApi
         {
             using (var request = new HttpRequestMessage(method, url))
             {
-                if (data != null && method == HttpMethod.Post)
+                if (data != null && (method == HttpMethod.Post || string.Equals(method.Method.ToUpper(), "PATCH")))
                 {
                     var body = JsonConvert.SerializeObject(data);
                     request.Content = new StringContent(body, Encoding.UTF8, "application/json");
